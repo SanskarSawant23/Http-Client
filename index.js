@@ -27,5 +27,36 @@ function makeGetRequest(){
     
 }
 
-makeGetRequest();
+// makeGetRequest();
+
+function makePostRequest(){
+    const data = JSON.stringify({name:'Sanskar Sawant', job:'Developer'});
+
+    const options = {
+        hostname: 'jsonplaceholder.typicode.com',
+        port: 80,
+        path:'/posts',
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Content-Length': data.length,
+        }
+    }
+    const req = http.request(options, (res)=>{
+        console.log(`Status Code: ${res.statusCode}`);
+        let response = '';
+        res.on('data', (chunk)=>{
+            response += chunk;
+        })
+        console.log(response);
+    })
+    req.on('error', (error)=>{
+        console.error(`Error: ${error.message}`);
+    });
+
+    req.write(data);
+    req.end();
+}
+
+makePostRequest();
 
